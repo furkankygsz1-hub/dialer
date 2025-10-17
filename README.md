@@ -11,6 +11,8 @@ OYNANMIŞ GORUNTU
 Angular çalıştığım kaynaklar:
 
 https://www.youtube.com/watch?v=uWpgtcSxJ3E
+
+
 https://www.youtube.com/watch?v=oUmVFHlwZsI&t=110s
 
 .net kısmını kafamda oturmakta biraz sıkıntı yaşadım onu eklemedim o yüzden ama angular kısımlarında sorun yaşamadım.
