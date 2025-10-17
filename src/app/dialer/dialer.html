@@ -1,0 +1,71 @@
+<div class="dialer">
+  <div class="display">{{ display || ' ' }}</div>
+
+  <div class="grid">
+    @for (k of keys; track $index) {
+      <button class="key" (click)="press(k.main)">
+        <div class="main">{{ k.main }}</div>
+        @if (k.sub) { <div class="sub">{{ k.sub }}</div> }
+      </button>
+    }
+  </div>
+
+  <div class="actions">
+    <button class="action call"
+            [disabled]="!isValid() && !calling"
+            (click)="calling ? hangup() : call()">
+      {{ calling ? 'Kapat' : 'Ara' }}
+    </button>
+
+    <button class="action backspace"
+            [disabled]="calling || display.length === 0"
+            (click)="backspace()">
+      ⌫
+    </button>
+
+    <!-- 💬 Chat butonu -->
+    <button class="action chat" (click)="toggleChat()">💬 Chat</button>
+  </div>
+
+  <!-- Ses & mikrofon barları -->
+  <div class="sliders">
+    <div class="slider-row">
+      <button class="icon">🔊</button>
+      <input type="range" min="0" max="100" [(ngModel)]="volume" />
+      <span>{{ volume }}</span>
+    </div>
+
+    <div class="slider-row">
+      <button class="icon">🎤</button>
+      <input type="range" min="0" max="100" [(ngModel)]="mic" />
+      <span>{{ mic }}</span>
+    </div>
+  </div>
+
+  <!-- Chat paneli -->
+  <section class="chat-panel" [class.open]="chatOpen" aria-hidden="{{!chatOpen}}">
+    <header class="chat-header">
+      Chat
+      <button class="close" (click)="toggleChat()">×</button>
+    </header>
+
+    <div class="chat-body">
+      @if (messages.length === 0) {
+        <div class="empty">Henüz mesaj yok.</div>
+      } @else {
+        @for (m of messages; track $index) {
+          <div class="msg" [class.me]="m.from === 'me'">
+            {{ m.text }}
+          </div>
+        }
+      }
+    </div>
+
+    <form class="chat-input" (submit)="$event.preventDefault(); sendMessage()">
+      <input type="text" placeholder="Mesaj yaz..."
+             name="msg" [(ngModel)]="newMessage"
+             (keydown.enter)="sendMessage()" />
+      <button type="button" (click)="sendMessage()">Gönder</button>
+    </form>
+  </section>
+</div>
